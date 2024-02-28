@@ -1,6 +1,6 @@
 # KintoneUsersOrganizations
 
-## ユーザー組織展開プラグイン
+## Kintone ユーザー組織展開プラグイン
 
 ## 1.概要
 
