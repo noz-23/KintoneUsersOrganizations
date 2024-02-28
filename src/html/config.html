@@ -1,0 +1,39 @@
+<section id="plugin_setting_form" class="settings">
+  <h2 id="plugin_titile" class="settings-heading">{{html:lang.plugin_titile}}</h2>
+  <p id="plugin_description" class="kintoneplugin-desc">{{html:lang.plugin_description}}</p>
+  <form class="js-submit-settings">
+    <p class="kintoneplugin-row">
+      <label id="plugin_label" class="kintoneplugin-label">{{html:lang.plugin_label}}</label>
+      <br>
+    </p>
+    <label id="users_label" class="kintoneplugin-label">{{html:lang.users_label}}</label>
+    <div class="kintoneplugin-select">
+      <select id="users_field">
+        <option value="">---</option>
+      </select>
+    </div>
+    <br>
+    <label id="count_label" class="kintoneplugin-label">{{html:lang.count_label}}</label>
+    <div class="kintoneplugin-input-outer">
+      <input id="count_field" class="kintoneplugin-input-text" type="number" min="0" value="0">
+    </div>
+    <br>
+    <label id="organizations_label" class="kintoneplugin-label">{{html:lang.organizations_label}}</label>
+    <div class="kintoneplugin-select">
+      <select id="organizations_field">
+        <option value="">---</option>
+      </select>
+    </div>
+    <br>
+    <label id="primary_label" class="kintoneplugin-label">{{html:lang.primary_label}}</label>
+    <div class="kintoneplugin-select">
+      <select id="primary_field">
+        <option value="">---</option>
+      </select>
+    </div>
+    <p class="kintoneplugin-row">
+        <button type="button" id="plugin_cancel" class="kintoneplugin-button-dialog-cancel">{{html:lang.plugin_cancel}}</button>
+        <button type="button" id="plugin_ok" class="kintoneplugin-button-dialog-ok">{{html:lang.plugin_ok}}</button>
+    </p>
+  </form>
+</section>
