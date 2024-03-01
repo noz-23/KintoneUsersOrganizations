@@ -1,10 +1,10 @@
 {
   "manifest_version": 1,
-  "version": "0.1.0",
+  "version": "0.2.0",
   "type": "APP",
   "name": {
     "en": "KintoneUsersOrganizations",
-    "ja": "KintoneUsersOrganizations"
+    "ja": "ユーザーの所属組織の展開"
   },
   "description": {
     "en": "Deployment of User's Organizations",

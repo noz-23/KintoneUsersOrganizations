@@ -1,10 +1,22 @@
 /*
-ユーザ名から現在の所属更新
-*/
+ *ユーザーの所属組織の展開
+ * Copyright (c) 2024 noz-23
+ *  https://github.com/noz-23/
+ *
+ * Licensed under the MIT License
+ * 
+ * History
+ *  2024/02/28 0.1.0 初版とりあえずバージョン
+ *  2024/03/01 0.2.0 同一フィールドの選択できない様に変更、コーディングルール、コメント等の直し
+ */
 
-(function (PLUGIN_ID) {
+jQuery.noConflict();
+
+((PLUGIN_ID_)=>{
+  'use strict';
+
   // Kintone プラグイン 設定パラメータ
-  const config = kintone.plugin.app.getConfig(PLUGIN_ID);
+  const config = kintone.plugin.app.getConfig(PLUGIN_ID_);
 
   const readUser=config['paramFieldUsers'];              // 読み取るユーザーのフィールド 名
   const countUsers=config['paramCountUsers'];            // ユーザーのカウント数
@@ -15,21 +27,12 @@
     'app.record.create.show', // 作成表示
     'app.record.edit.show',   // 編集表示
     'app.record.index.show',  // 一覧表示
-    //'app.record.create.submit',     // 作成保存
-    //'app.record.edit.submit',       // 編集保存
-    //'app.record.index.edit.submit', // 一覧保存
   ];
 
   let EVENTS_CHANGE =[
-    //'app.record.create.show', // 作成表示
-    //'app.record.edit.show',   // 編集表示
-    //'app.record.index.show',  // 一覧表示
-    //'app.record.create.submit',     // 作成保存
-    //'app.record.edit.submit',       // 編集保存
-    //'app.record.index.edit.submit', // 一覧保存
     'app.record.create.change.'+readUser,
-    'app.record.edit.change.'+readUser,
-    'app.record.index.change.'+readUser,
+    'app.record.edit.change.'  +readUser,
+    'app.record.index.change.' +readUser,
   ];
   kintone.events.on(EVENTS_EDIT, (events_) => {
     console.log('events_:%o',events_);
@@ -44,17 +47,22 @@
     console.log('events_:%o',events_);
     var useLang = kintone.getLoginUser().language;
 
-    let paramUsers={codes:[]};
-    for( let user of events_.record[readUser].value){
-      paramUsers.codes.push(user.code);
+    // 選択無しは終了
+    if ( events_.record[readUser].value.length ==0)
+    {
+      events_.record[readUser].value =[];
+      events_.record[writeOrgans].value =[];
+      events_.record[writePrimary].value =[];
+      return events_;
     }
-    console.log('paramUsers:%o',paramUsers);
     
+    // ユーザー数の取得
     const count =Number(countUsers);
     if( count !=0)
     {
-      if ( paramUsers.codes.length >count)
+      if ( events_.record[readUser].value.length >count)
       {
+        // 設定数以上は抜ける
         const arertLang =( useLang =='ja') ? (''+count+'人以上は設定しないでください'):('Please don\'t Select Over '+count+' users');
         alert(arertLang);
 
@@ -64,15 +72,17 @@
         return events_;
       }
     }
-    if ( paramUsers.codes.length ==0)
-    {
-      events_.record[readUser].value =[];
-      events_.record[writeOrgans].value =[];
-      events_.record[writePrimary].value =[];
-      return events_;
-    }
 
-    kintone.api(kintone.api.url('/v1/users', true), 'GET',paramUsers,async ( listUser_)=>{
+    // ユーザー(コード)情報の取得
+    let paramUsers={codes:[]};
+    for( let user of events_.record[readUser].value){
+      paramUsers.codes.push(user.code);
+    }
+    console.log('paramUsers:%o',paramUsers);
+
+    // ユーザーの詳細情報を取得
+    kintone.api(kintone.api.url('/v1/users', true), 'GET', paramUsers,async ( listUser_)=>{
+      // change系は return で有効にならないため await しない
       console.log('listUser_:%o',listUser_);
 
       var record =await kintone.app.record.get();
@@ -80,25 +90,33 @@
 
       record.record[writeOrgans].value =[];
       record.record[writePrimary].value =[];
+
+      // 各ユーザーの情報を入れる
       for( let user of listUser_.users){
         console.log('user:%o',user);
   
+        // 所属組織の取得
         const listOrgan =await kintone.api(kintone.api.url('/v1/user/organizations', true), 'GET',{code:user.code});
         console.log('listOrgan:%o',listOrgan);
   
-        for(let organ of listOrgan.organizationTitles)
-        {
+        // 所属組織のデータを入れる
+        for(let organ of listOrgan.organizationTitles){
+          // 重複チェックは更新時にされる
           record.record[writeOrgans].value.push({code:organ.organization.code,name:organ.organization.name});
         }
         
+        // 優先組織の取得
         var userPrimaryOrgan =user.primaryOrganization;
         var primaryOrgan =listOrgan.organizationTitles.find( find => find.organization.id == userPrimaryOrgan);
         console.log('primaryOrgan:%o',primaryOrgan);
   
+        // 優先組織のデータを入れる
         record.record[writePrimary].value.push({code:primaryOrgan.organization.code,name:primaryOrgan.organization.name});
         console.log('write record:%o',record);
+
+        // データの更新
         kintone.app.record.set(record);
-        }
+      }
     });
     return events_;
   });
