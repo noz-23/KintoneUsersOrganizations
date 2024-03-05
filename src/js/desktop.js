@@ -8,6 +8,7 @@
  * History
  *  2024/02/28 0.1.0 初版とりあえずバージョン
  *  2024/03/01 0.2.0 同一フィールドの選択できない様に変更、コーディングルール、コメント等の直し
+ *  2024/03/05 0.2.1 細かいバグ修正、コーディングルール、コメント等の直し
  */
 
 jQuery.noConflict();
@@ -18,7 +19,7 @@ jQuery.noConflict();
   // Kintone プラグイン 設定パラメータ
   const config = kintone.plugin.app.getConfig(PLUGIN_ID_);
 
-  const readUser=config['paramFieldUsers'];              // 読み取るユーザーのフィールド 名
+  const readUsers=config['paramFieldUsers'];              // 読み取るユーザーのフィールド 名
   const countUsers=config['paramCountUsers'];            // ユーザーのカウント数
   const writeOrgans =config['paramFieldOrganizations'];  // 書き込む所属組織のフィールド名
   const writePrimary =config['paramFieldPrimary'];       // 書き込む優先組織のフィールド名
@@ -30,9 +31,9 @@ jQuery.noConflict();
   ];
 
   let EVENTS_CHANGE =[
-    'app.record.create.change.'+readUser,
-    'app.record.edit.change.'  +readUser,
-    'app.record.index.change.' +readUser,
+    'app.record.create.change.'+readUsers,
+    'app.record.edit.change.'  +readUsers,
+    'app.record.index.change.' +readUsers,
   ];
   kintone.events.on(EVENTS_EDIT, (events_) => {
     console.log('events_:%o',events_);
@@ -48,34 +49,34 @@ jQuery.noConflict();
     var useLang = kintone.getLoginUser().language;
 
     // 選択無しは終了
-    if ( events_.record[readUser].value.length ==0)
+    if ( events_.record[readUsers].value.length ==0)
     {
-      events_.record[readUser].value =[];
+      events_.record[readUsers].value =[];
       events_.record[writeOrgans].value =[];
       events_.record[writePrimary].value =[];
-      return events_;
+      return;
     }
     
     // ユーザー数の取得
     const count =Number(countUsers);
     if( count !=0)
     {
-      if ( events_.record[readUser].value.length >count)
+      if ( events_.record[readUsers].value.length >count)
       {
         // 設定数以上は抜ける
         const arertLang =( useLang =='ja') ? (''+count+'人以上は設定しないでください'):('Please don\'t Select Over '+count+' users');
         alert(arertLang);
 
-        events_.record[readUser].value =[];
+        events_.record[readUsers].value =[];
         events_.record[writeOrgans].value =[];
         events_.record[writePrimary].value =[];
-        return events_;
+        return;
       }
     }
 
     // ユーザー(コード)情報の取得
     let paramUsers={codes:[]};
-    for( let user of events_.record[readUser].value){
+    for( let user of events_.record[readUsers].value){
       paramUsers.codes.push(user.code);
     }
     console.log('paramUsers:%o',paramUsers);
@@ -118,6 +119,6 @@ jQuery.noConflict();
         kintone.app.record.set(record);
       }
     });
-    return events_;
+    return;
   });
 })(kintone.$PLUGIN_ID);

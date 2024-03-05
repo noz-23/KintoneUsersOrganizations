@@ -8,6 +8,7 @@
  * History
  *  2024/02/28 0.1.0 初版とりあえずバージョン
  *  2024/03/01 0.2.0 同一フィールドの選択できない様に変更、コーディングルール、コメント等の直し
+ *  2024/03/05 0.2.1 細かいバグ修正、コーディングルール、コメント等の直し
  */
 
 jQuery.noConflict();
@@ -49,7 +50,7 @@ jQuery.noConflict();
         plugin_ok          : '   保存  ',
         alert_message      : '所属組織と優先組織は同じにしないで下さい'
       },
-      Setting:'ja',
+      DefaultSetting:'ja',
       UseLang:{}
     },
     Html:{
@@ -90,13 +91,13 @@ jQuery.noConflict();
   const settingLang=()=>{
     // 言語設定の取得
     Parameter.Lang.UseLang = kintone.getLoginUser().language;
-    switch( useLang)
+    switch( Parameter.Lang.UseLang)
     {
       case 'en':
       case 'ja':
         break;
       default:
-        Parameter.Lang.UseLang =Parameter.Lang.Setting;
+        Parameter.Lang.UseLang =Parameter.Lang.DefaultSetting;
         break;
     }
     // 言語表示の変更
@@ -199,12 +200,12 @@ jQuery.noConflict();
     kintone.plugin.app.setConfig(config);
   };
 
+  // 言語設定
+  settingLang();
+  await settingHtml();
+
   // 保存
   jQuery(Parameter.Html.Ok).click(() =>{saveSetting();});
   // キャンセル
   jQuery(Parameter.Html.Cancel).click(()=>{history.back();});
-
-  // 言語設定
-  settingLang();
-  await settingHtml();
 })(jQuery, kintone.$PLUGIN_ID);
