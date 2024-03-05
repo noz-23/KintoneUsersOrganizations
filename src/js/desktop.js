@@ -9,6 +9,7 @@
  *  2024/02/28 0.1.0 初版とりあえずバージョン
  *  2024/03/01 0.2.0 同一フィールドの選択できない様に変更、コーディングルール、コメント等の直し
  *  2024/03/05 0.2.1 細かいバグ修正、コーディングルール、コメント等の直し
+ *  2024/03/05 0.2.2 ユーザー選択がない場合クリアするように変更
  */
 
 jQuery.noConflict();
@@ -51,9 +52,7 @@ jQuery.noConflict();
     // 選択無しは終了
     if ( events_.record[readUsers].value.length ==0)
     {
-      events_.record[readUsers].value =[];
-      events_.record[writeOrgans].value =[];
-      events_.record[writePrimary].value =[];
+      clearData();
       return;
     }
     
@@ -67,9 +66,7 @@ jQuery.noConflict();
         const arertLang =( useLang =='ja') ? (''+count+'人以上は設定しないでください'):('Please don\'t Select Over '+count+' users');
         alert(arertLang);
 
-        events_.record[readUsers].value =[];
-        events_.record[writeOrgans].value =[];
-        events_.record[writePrimary].value =[];
+        clearData();
         return;
       }
     }
@@ -121,4 +118,39 @@ jQuery.noConflict();
     });
     return;
   });
+
+  /*
+  表示のクリア
+   引数　：なし
+   戻り値：なし
+  */
+  const clearData=async()=>{
+    console.log('clearData');
+    //
+    await Sleep(500);
+    var record =await kintone.app.record.get();
+
+    // ユーザー選択が編集不可で、選択されてない場合はクリア
+    record.record[readUsers].value =[];
+
+    if(record.record[writeOrgans]){
+      record.record[writeOrgans].value =[];
+    }
+    if(record.record[writePrimary]){
+      record.record[writePrimary].value =[];
+    }
+ 
+    console.log('record:%o',record);
+    kintone.app.record.set(record);
+  }
+
+  /*
+  スリープ関数
+   引数　：ms_ ms単位のスリープ時間
+   戻り値：なし
+  */
+  const Sleep=(ms_)=>{
+    return new Promise(resolve_ => setTimeout(resolve_, ms_));
+  };
+  
 })(kintone.$PLUGIN_ID);
