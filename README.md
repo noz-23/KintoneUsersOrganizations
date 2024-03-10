@@ -8,6 +8,9 @@
 
 選択できるユーザー数は制限を設けることができ、全組織と優先組織は任意に設定できます。
 
+### イメージ
+　![KintoneUsersOrganizations](https://github.com/noz-23/KintoneUsersOrganizations/assets/160399039/4cfc362c-d78c-40d3-8ecc-2b6be5b60da0)
+
 ## 2.注意点
 
 全組織と優先組織は編集できません。
