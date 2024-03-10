@@ -1,26 +1,26 @@
-# KintoneProcessShow
+# KintoneUsersOrganizations
 
-## Kintone プロセス位置表示プラグイン
+## Kintone ユーザー組織展開プラグイン
 
 ## 1.概要
 
-プロセスの現在位置を表示するプラグインです。
+ユーザー選択後、所属する全組織と優先組織を展開するプラグインです。
 
-表示色は｢済｣｢今｣｢未｣でそれぞれで変更きます。
+選択できるユーザー数は制限を設けることができ、全組織と優先組織は任意に設定できます。
 
 ### イメージ
 
-　![KintoneProcessShow](https://github.com/noz-23/KintoneProcessShow/assets/160399039/b964f12f-be55-4da3-bfb1-485463b6fac6)
+　![KintoneUsersOrganizations](https://github.com/noz-23/KintoneUsersOrganizations/assets/160399039/4cfc362c-d78c-40d3-8ecc-2b6be5b60da0)
 
 ## 2.注意点
 
-表示位置はフォーム上部となります。
-
-tinyColorPicker が JQuery の Ver.3 以降(context削除)に対応してないっぽいので、再利用する場合は気をつけ下さい。
+全組織と優先組織は編集できません。
 
 ## 3.今後
 
-cssなど利用し表示の見栄えを良くしようと思います。
+現行はユーザー選択(変更)時に、変更する仕様となります。
+
+展開ボタンなどの押下後などの任意のタイミングでも展開できるようにもできる用にしたいと思います。
 
 ## 4.ライセンス
 
@@ -30,31 +30,20 @@ MIT license
 
 JQuery   :https://jquery.com
 
-    https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js
-          
-
 jsrender :https://www.jsviews.com
-
-    https://cdnjs.cloudflare.com/ajax/libs/jsrender/0.9.91/jsrender.min.js
-
-tinyColorPicker and colors :https://github.com/PitPik/tinyColorPicker
-
-    https://cdnjs.cloudflare.com/ajax/libs/tinyColorPicker/1.1.1/jqColorPicker.min.js
-
-
-
-参考
-　条件書式プラグイン：
-　　https://github.com/kintone-samples/plugin-samples
-　　https://cybozu.dev/ja/kintone/tips/development/plugins/sample-plugin/conditionformat-v2-plugin/
 
 
 ## 6.バージョン履歴
 
- 2024/03/06 0.1.0 初版 
-
- 2024/03/10 0.1.1 とりあえずバージョン公開(cybozu から cloudflare へ cdn を変更で不具合修正)
+ 2024/02/28 0.1.0 初版 とりあえずバージョンの作成(GitHubの練習)
  
+ 2024/03/01 0.2.0 同一フィールドの選択できない様に変更、コーディングルール、コメント等の直し
+
+ 2024/03/05 0.2.1 不具合修正
+
+ 2024/03/05 0.2.2 ユーザー選択がない場合クリアするように変更
+
+
 ## 7.連絡
 
 nzds23@yahoo.co.jp
