@@ -5,16 +5,27 @@
  *
  * Licensed under the MIT License
  * 
+ *  利用：
+ *   JQuery:
+ *     https://jquery.com/
+ *     https://js.cybozu.com/jquery/3.7.1/jquery.min.js
+ *   
+ *   jsrender:
+ *     https://www.jsviews.com/
+ *     https://js.cybozu.com/jsrender/1.0.13/jsrender.min.js
+ * 
  * History
  *  2024/02/28 0.1.0 初版とりあえずバージョン
  *  2024/03/01 0.2.0 同一フィールドの選択できない様に変更、コーディングルール、コメント等の直し
  *  2024/03/05 0.2.1 細かいバグ修正、コーディングルール、コメント等の直し
  *  2024/03/05 0.2.2 ユーザー選択がない場合クリアするように変更
+ *  2024/03/24 0.3.0 プラグイン設定画面に Google AdSense 追加
+ *
  */
 
 jQuery.noConflict();
 
-((PLUGIN_ID_)=>{
+(async ( PLUGIN_ID_) => {
   'use strict';
 
   // Kintone プラグイン 設定パラメータ
