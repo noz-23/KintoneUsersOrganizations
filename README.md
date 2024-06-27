@@ -10,6 +10,12 @@
 
 ### イメージ
 
+設定画面
+　![KintoneUsersOrganizations_setting](https://github.com/noz-23/KintoneUsersOrganizations/assets/160399039/435cc1ef-f440-4850-ae24-4bca2c78ac55)
+
+
+アプリ画面
+
 　![KintoneUsersOrganizations](https://github.com/noz-23/KintoneUsersOrganizations/assets/160399039/4cfc362c-d78c-40d3-8ecc-2b6be5b60da0)
 
 ## 2.注意点
@@ -49,6 +55,8 @@ jsrender :https://www.jsviews.com
  2024/03/05 0.2.2 ユーザー選択がない場合クリアするように変更
 
  2024/03/24 0.3.0 プラグイン設定画面に Google AdSense 追加
+
+ 2024/06/27 0.3.1 設定画面の説明変更(変数の変更等整理)
 
 ## 7.連絡
 
